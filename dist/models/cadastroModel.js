@@ -18,4 +18,4 @@ const CadastroSchema = new mongoose_1.default.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 const cadastroModel = mongoose_1.default.model('Cadastro', CadastroSchema);
-module.exports = cadastroModel;
+exports.default = cadastroModel;
