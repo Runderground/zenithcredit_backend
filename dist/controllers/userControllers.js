@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ConsultarPorQueryUnique = exports.FazerCadastro = void 0;
+exports.DeleteUser = exports.ConsultarPorQueryUnique = exports.FazerCadastro = void 0;
 const cadastroModel_1 = __importDefault(require("../models/cadastroModel"));
 const FazerCadastro = async (req, res) => {
     const { nome, email, telefone, cpf, cep, nascimento, renda, ocupacao, motivo, garantia } = req.body;
@@ -84,3 +84,19 @@ const ConsultarPorQueryUnique = async (req, res) => {
     }
 };
 exports.ConsultarPorQueryUnique = ConsultarPorQueryUnique;
+const DeleteUser = (req, res) => {
+    const { id } = req.params;
+    if (!id) {
+        res.status(400).json({ error: "Usuário não encontrado ou existente." });
+        return;
+    }
+    try {
+        cadastroModel_1.default.findByIdAndDelete(id);
+        res.status(200).json({ success: "Usuário deletado com sucesso." });
+    }
+    catch (err) {
+        res.status(500).json("Ocorreu algum erro com o servidor");
+        console.error(err);
+    }
+};
+exports.DeleteUser = DeleteUser;

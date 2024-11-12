@@ -15,4 +15,5 @@ router.get('/', async (req, res) => {
 router.post('/register', userControllers_1.FazerCadastro);
 //Rota privada
 router.get('/find_user_unique', userControllers_1.ConsultarPorQueryUnique);
+router.delete('/delete/:id', userControllers_1.DeleteUser);
 exports.default = router;
