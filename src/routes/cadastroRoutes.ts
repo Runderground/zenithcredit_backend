@@ -1,5 +1,5 @@
 import express from 'express'
-import { FazerCadastro, ConsultarPorQueryUnique } from '../controllers/userControllers'
+import { FazerCadastro, ConsultarPorQueryUnique, DeleteUser } from '../controllers/userControllers'
 import cadastroModel from '../models/cadastroModel'
 
 const router = express.Router()
@@ -16,5 +16,6 @@ router.post('/register', FazerCadastro)
 //Rota privada
 
 router.get('/find_user_unique', ConsultarPorQueryUnique)
+router.delete('/delete/:id', DeleteUser)
 
 export default router

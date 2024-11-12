@@ -93,3 +93,18 @@ export const ConsultarPorQueryUnique = async (req: Request, res: Response) => {
      res.json(User)
   }
 }
+
+export const DeleteUser = (req: Request, res: Response) => {
+  const { id } = req.params
+  if(!id) {
+    res.status(400).json({error: "Usuário não encontrado ou existente."})
+    return
+  }
+  try {
+    cadastroModel.findByIdAndDelete(id)
+    res.status(200).json({success: "Usuário deletado com sucesso."})
+  } catch (err) {
+    res.status(500).json("Ocorreu algum erro com o servidor")
+    console.error(err)
+  }
+}
