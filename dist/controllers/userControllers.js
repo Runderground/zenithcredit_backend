@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FazerCadastro = void 0;
+exports.ConsultarPorQueryUnique = exports.FazerCadastro = void 0;
 const cadastroModel_1 = __importDefault(require("../models/cadastroModel"));
 const FazerCadastro = async (req, res) => {
     const { nome, email, telefone, cpf, cep, nascimento, renda, ocupacao, motivo, garantia } = req.body;
@@ -48,3 +48,39 @@ const FazerCadastro = async (req, res) => {
     }
 };
 exports.FazerCadastro = FazerCadastro;
+const ConsultarPorQueryUnique = async (req, res) => {
+    const { id, email, cpf, telefone } = req.query;
+    if (id) {
+        const User = await cadastroModel_1.default.findOne({ _id: id });
+        if (!User) {
+            res.status(404).json({ error: "Usuário não encontrado ou existente." });
+            return;
+        }
+        res.json(User);
+    }
+    if (email) {
+        const User = await cadastroModel_1.default.findOne({ email: email });
+        if (!User) {
+            res.status(404).json({ error: "Usuário não encontrado ou existente." });
+            return;
+        }
+        res.json(User);
+    }
+    if (cpf) {
+        const User = await cadastroModel_1.default.findOne({ cpf: cpf });
+        if (!User) {
+            res.status(404).json({ error: "Usuário não encontrado ou existente." });
+            return;
+        }
+        res.json(User);
+    }
+    if (telefone) {
+        const User = await cadastroModel_1.default.findOne({ telefone: telefone });
+        if (!User) {
+            res.status(404).json({ error: "Usuário não encontrado ou existente." });
+            return;
+        }
+        res.json(User);
+    }
+};
+exports.ConsultarPorQueryUnique = ConsultarPorQueryUnique;

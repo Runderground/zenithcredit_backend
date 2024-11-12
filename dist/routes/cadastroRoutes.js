@@ -11,5 +11,8 @@ router.get('/', async (req, res) => {
     const users = await cadastroModel_1.default.find();
     res.json(users);
 });
+// Rota pública
 router.post('/register', userControllers_1.FazerCadastro);
+//Rota privada
+router.get('/find_user_unique', userControllers_1.ConsultarPorQueryUnique);
 exports.default = router;
