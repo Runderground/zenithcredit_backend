@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllAdmins, createAdmin, loginAdmin } from '../controllers/adminControllers'
+import { getAllAdmins, createAdmin, loginAdmin, deleteAdmin } from '../controllers/adminControllers'
 import { authenticateJWT } from '../middleware/Auth'
 
 const router = express.Router()
@@ -11,7 +11,8 @@ router.post("/login", loginAdmin)
 
 // Rotas privadas
 
-router.post("/register", createAdmin)
-router.get("/", getAllAdmins)
+router.post("/register", authenticateJWT, createAdmin)
+router.get("/", authenticateJWT, getAllAdmins)
+router.delete("/delete/:id", deleteAdmin)
 
 export default router
