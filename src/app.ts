@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cadastroRoutes from './routes/cadastroRoutes'
 import contactRoutes from './routes/contactRoutes'
+import adminRoutes from './routes/adminRoutes'
 
 dotenv.config()
 
@@ -15,7 +16,7 @@ app.use(cors())
 app.use(express.json())
 app.use('/api/cadastros', cadastroRoutes)
 app.use('/api/contatos', contactRoutes)
-app.use('/api/admins')
+app.use('/api/admins', adminRoutes)
 
 app.get('/helloworld', (req, res) => {
   res.json('Hello World!')
