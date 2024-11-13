@@ -20,6 +20,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
   try {
     const decoded = jwt.verify(token, SECRET_KEY) as CustomJwtPayload
     req.user = decoded;
+    res.status(200).json({success: "Token válido"})
     next()
   } catch(error) {
     res.status(403).json({error: "Token inválido ou expirado"})

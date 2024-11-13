@@ -17,6 +17,7 @@ const authenticateJWT = (req, res, next) => {
     try {
         const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);
         req.user = decoded;
+        res.status(200).json({ success: "Token válido" });
         next();
     }
     catch (error) {
