@@ -27,7 +27,7 @@ const createAdmin = async (req, res) => {
             password: hashedPassword
         });
         const newAdmin = await admin.save();
-        const token = jsonwebtoken_1.default.sign(newAdmin._id, process.env.JWT_KEY, {
+        const token = jsonwebtoken_1.default.sign({ _id: newAdmin._id }, process.env.JWT_KEY, {
             expiresIn: '1d'
         });
         res.json(201).json({ token, success: "Administrador criado com sucesso!" });
@@ -55,7 +55,7 @@ const loginAdmin = async (req, res) => {
             res.status(401).json({ error: "Email ou senha inválidos" });
             return;
         }
-        const token = jsonwebtoken_1.default.sign(admin._id, process.env.JWT_KEY, {
+        const token = jsonwebtoken_1.default.sign({ _id: admin._id }, process.env.JWT_KEY, {
             expiresIn: '1d'
         });
         res.status(200).json({ token, success: `Bem vindo ${admin.nome}!` });

@@ -26,7 +26,7 @@ export const createAdmin = async (req: Request, res: Response) => {
     })
     const newAdmin = await admin.save()
 
-    const token = jwt.sign(newAdmin._id, process.env.JWT_KEY as string, {
+    const token = jwt.sign({_id: newAdmin._id}, process.env.JWT_KEY as string, {
       expiresIn: '1d'
     })
     
@@ -58,7 +58,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
       return
     }
 
-    const token = jwt.sign(admin._id, process.env.JWT_KEY as string, {
+    const token = jwt.sign({_id: admin._id}, process.env.JWT_KEY as string, {
       expiresIn: '1d'
     })
 
