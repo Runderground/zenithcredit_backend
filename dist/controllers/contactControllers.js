@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeStatus = exports.deleteContact = exports.createContact = exports.getAllContacts = void 0;
+exports.CountUsers = exports.changeStatus = exports.deleteContact = exports.createContact = exports.getAllContacts = void 0;
 const contactModel_1 = __importDefault(require("../models/contactModel"));
 const getAllContacts = async (req, res) => {
     const page = parseInt(req.query.page, 10) || 1;
@@ -96,3 +96,8 @@ const changeStatus = async (req, res) => {
     }
 };
 exports.changeStatus = changeStatus;
+const CountUsers = async (req, res) => {
+    const usersCount = await contactModel_1.default.countDocuments();
+    res.json(usersCount);
+};
+exports.CountUsers = CountUsers;

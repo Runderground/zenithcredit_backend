@@ -133,3 +133,8 @@ export const DeleteUser = async (req: Request, res: Response) => {
   }
 }
 
+
+export const CountUsers = async (req: Request, res: Response) => {
+  const usersCount = await cadastroModel.countDocuments()
+  res.json(usersCount)
+}

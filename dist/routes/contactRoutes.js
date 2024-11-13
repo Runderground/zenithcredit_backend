@@ -13,4 +13,5 @@ router.post("/register", contactControllers_1.createContact);
 router.patch("/changestatus/:id", Auth_1.authenticateJWT, contactControllers_1.changeStatus);
 router.delete("/delete/:id", Auth_1.authenticateJWT, contactControllers_1.deleteContact);
 router.get("/", Auth_1.authenticateJWT, contactControllers_1.getAllContacts);
+router.get("/totalusers", Auth_1.authenticateJWT, contactControllers_1.CountUsers);
 exports.default = router;

@@ -133,3 +133,8 @@ export const deleteAdmin = async (req: Request, res: Response) => {
 export const tokenVerified = (req: Request, res: Response) => {
   res.status(200).json({error:"Token Verificado"})
 }
+
+export const CountUsers = async (req: Request, res: Response) => {
+  const usersCount = await adminModel.countDocuments()
+  res.json(usersCount)
+}

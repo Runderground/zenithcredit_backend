@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tokenVerified = exports.deleteAdmin = exports.getAllAdmins = exports.loginAdmin = exports.createAdmin = void 0;
+exports.CountUsers = exports.tokenVerified = exports.deleteAdmin = exports.getAllAdmins = exports.loginAdmin = exports.createAdmin = void 0;
 const adminModel_1 = __importDefault(require("../models/adminModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
@@ -128,3 +128,8 @@ const tokenVerified = (req, res) => {
     res.status(200).json({ error: "Token Verificado" });
 };
 exports.tokenVerified = tokenVerified;
+const CountUsers = async (req, res) => {
+    const usersCount = await adminModel_1.default.countDocuments();
+    res.json(usersCount);
+};
+exports.CountUsers = CountUsers;

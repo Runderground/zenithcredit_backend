@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllContacts, createContact, changeStatus, deleteContact } from '../controllers/contactControllers'
+import { getAllContacts, createContact, changeStatus, deleteContact, CountUsers } from '../controllers/contactControllers'
 import { authenticateJWT } from '../middleware/Auth'
 
 const router = express.Router()
@@ -12,5 +12,6 @@ router.post("/register", createContact)
 router.patch("/changestatus/:id", authenticateJWT, changeStatus)
 router.delete("/delete/:id", authenticateJWT, deleteContact)
 router.get("/", authenticateJWT, getAllContacts)
+router.get("/totalusers", authenticateJWT, CountUsers)
 
 export default router

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteUser = exports.ConsultarPorQueryUnique = exports.FazerCadastro = exports.getAllCadastros = void 0;
+exports.CountUsers = exports.DeleteUser = exports.ConsultarPorQueryUnique = exports.FazerCadastro = exports.getAllCadastros = void 0;
 const cadastroModel_1 = __importDefault(require("../models/cadastroModel"));
 const getAllCadastros = async (req, res) => {
     const page = parseInt(req.query.page, 10) || 1;
@@ -123,3 +123,8 @@ const DeleteUser = async (req, res) => {
     }
 };
 exports.DeleteUser = DeleteUser;
+const CountUsers = async (req, res) => {
+    const usersCount = await cadastroModel_1.default.countDocuments();
+    res.json(usersCount);
+};
+exports.CountUsers = CountUsers;

@@ -96,3 +96,8 @@ export const changeStatus = async(req: Request,res: Response) => {
     res.status(200).json(user)
   }
 }
+
+export const CountUsers = async (req: Request, res: Response) => {
+  const usersCount = await contactModel.countDocuments()
+  res.json(usersCount)
+}
