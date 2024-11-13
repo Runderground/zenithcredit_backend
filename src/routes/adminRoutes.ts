@@ -13,6 +13,6 @@ router.post("/login", loginAdmin)
 
 router.post("/register", authenticateJWT, createAdmin)
 router.get("/", authenticateJWT, getAllAdmins)
-router.delete("/delete/:id", deleteAdmin)
+router.delete("/delete/:id", authenticateJWT, deleteAdmin)
 
 export default router
