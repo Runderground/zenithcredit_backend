@@ -108,3 +108,4 @@ export const DeleteUser = async (req: Request, res: Response) => {
     console.error(err)
   }
 }
+

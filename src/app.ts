@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import cadastroRoutes from './routes/cadastroRoutes'
+import contactRoutes from './routes/contactRoutes'
 
 dotenv.config()
 
@@ -13,6 +14,7 @@ const DATABASE = process.env.DATABASE as string
 app.use(cors())
 app.use(express.json())
 app.use('/api/cadastros', cadastroRoutes)
+app.use('/api/contatos', contactRoutes)
 
 app.get('/', (req, res) => {
   res.json('Hello World!')

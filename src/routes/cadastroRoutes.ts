@@ -1,5 +1,5 @@
 import express from 'express'
-import { FazerCadastro, ConsultarPorQueryUnique, DeleteUser } from '../controllers/userControllers'
+import { FazerCadastro, ConsultarPorQueryUnique, DeleteUser } from '../controllers/cadastroControllers'
 import cadastroModel from '../models/cadastroModel'
 
 const router = express.Router()
