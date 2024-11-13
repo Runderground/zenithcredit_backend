@@ -17,8 +17,10 @@ const authenticateJWT = (req, res, next) => {
     try {
         const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);
         req.user = decoded;
+        next();
     }
-    finally {
+    catch (error) {
+        res.status(403).json({ error: "Token inválido ou expirado" });
     }
 };
 exports.authenticateJWT = authenticateJWT;

@@ -5,11 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const contactControllers_1 = require("../controllers/contactControllers");
+const Auth_1 = require("../middleware/Auth");
 const router = express_1.default.Router();
 // Rotas públicas
-router.get("/", contactControllers_1.getAllContacts);
 router.post("/register", contactControllers_1.createContact);
 // Rotas privadas
-router.patch("/changestatus/:id", contactControllers_1.changeStatus);
-router.delete("/delete/:id", contactControllers_1.deleteContact);
+router.patch("/changestatus/:id", Auth_1.authenticateJWT, contactControllers_1.changeStatus);
+router.delete("/delete/:id", Auth_1.authenticateJWT, contactControllers_1.deleteContact);
+router.get("/", Auth_1.authenticateJWT, contactControllers_1.getAllContacts);
 exports.default = router;
