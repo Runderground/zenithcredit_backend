@@ -1,17 +1,16 @@
 import express from 'express'
 import { FazerCadastro, ConsultarPorQueryUnique, DeleteUser, getAllCadastros } from '../controllers/cadastroControllers'
+import { authenticateJWT } from '../middleware/Auth'
 
 const router = express.Router()
 
-
-router.get('/', getAllCadastros)
-
-// Rota pública
+// Rotas públicas
 router.post('/register', FazerCadastro)
 
-//Rota privada
+//Rotas privadas
 
-router.get('/find_user_unique', ConsultarPorQueryUnique)
-router.delete('/delete/:id', DeleteUser)
+router.get('/find_user_unique', authenticateJWT, ConsultarPorQueryUnique)
+router.delete('/delete/:id', authenticateJWT, DeleteUser)
+router.get('/', authenticateJWT, getAllCadastros)
 
 export default router
