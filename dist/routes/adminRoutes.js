@@ -13,5 +13,5 @@ router.post("/login", adminControllers_1.loginAdmin);
 router.post("/register", Auth_1.authenticateJWT, adminControllers_1.createAdmin);
 router.get("/", Auth_1.authenticateJWT, adminControllers_1.getAllAdmins);
 router.delete("/delete/:id", Auth_1.authenticateJWT, adminControllers_1.deleteAdmin);
-router.get("/verify", Auth_1.authenticateJWT);
+router.get("/verify", Auth_1.authenticateJWT, adminControllers_1.tokenVerified);
 exports.default = router;

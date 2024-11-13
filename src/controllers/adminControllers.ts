@@ -129,3 +129,7 @@ export const deleteAdmin = async (req: Request, res: Response) => {
     console.error(error);
   }
 };
+
+export const tokenVerified = (req: Request, res: Response) => {
+  res.status(200).json({error:"Token Verificado"})
+}
