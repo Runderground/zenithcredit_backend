@@ -17,7 +17,8 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use('/api/cadastros', cadastroRoutes_1.default);
 app.use('/api/contatos', contactRoutes_1.default);
-app.get('/', (req, res) => {
+app.use('/api/admins');
+app.get('/helloworld', (req, res) => {
     res.json('Hello World!');
 });
 app.listen(PORT, () => console.log("Server rodando na porta 3000"));

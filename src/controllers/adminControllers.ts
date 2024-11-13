@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 
-const createAdmin = async (req: Request, res: Response) => {
+export const createAdmin = async (req: Request, res: Response) => {
     const { nome, email, password } = req.body
   if(!nome || !email || !password) {
     res.status(400).json({error: "Algum dos campos está faltando... Verifique e tente novamente."})
@@ -35,4 +35,60 @@ const createAdmin = async (req: Request, res: Response) => {
     console.error(error)
     res.status(500).json("Ocorreu algum erro não esperado. Tente mais tarde.")
   }
+}
+
+export const loginAdmin = async (req: Request, res: Response) => {
+  const { email, password } = req.body
+
+  const admin = await adminModel.findOne({email: email})
+  if(!admin) {
+    res.status(404).json({error: "Email ou senha inválidos."})
+    return
+  }
+  
+  if(!email || !password) {
+    res.status(400).json({error: "Algum dos campos está faltando... Verifique e tente novamente."})
+    return
+  }
+  try {
+    const senhaValida = await bcrypt.compare(password, admin.password)
+
+    if(!senhaValida) {
+      res.status(401).json({error: "Email ou senha inválidos"})
+      return
+    }
+
+    const token = jwt.sign(admin._id, process.env.JWT_KEY as string, {
+      expiresIn: '1d'
+    })
+
+    res.status(200).json({token, success: `Bem vindo ${admin.nome}!`})
+  } catch (error) {
+    console.error(error)
+    res.status(500).json("Ocorreu algum erro não esperado. Tente mais tarde.")
+  }
+}
+
+export const getAllAdmins = async (req: Request, res: Response) => {
+  const page = parseInt(req.query.page as string, 10) || 1
+  const limit = parseInt(req.query.limit as string, 10) || 10
+
+  const skip = (page - 1) * limit
+      try {
+        const admins = await adminModel.find().skip(skip).limit(limit).sort({createdAt: -1})
+
+        const totalCadastros = await adminModel.countDocuments()
+        if(!admins) {
+          res.status(404).json({error: "Não há contatos ou não consegui achar"})
+          return
+        }
+        res.status(200).json({
+          admins,
+          totalPages: Math.ceil(totalCadastros / limit),
+          currentPage: page,
+        })
+      } catch(error) {
+        console.error(error)
+        res.status(500).json("Ocorreu algum erro com o servidor")
+      }
 }

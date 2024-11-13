@@ -15,8 +15,9 @@ app.use(cors())
 app.use(express.json())
 app.use('/api/cadastros', cadastroRoutes)
 app.use('/api/contatos', contactRoutes)
+app.use('/api/admins')
 
-app.get('/', (req, res) => {
+app.get('/helloworld', (req, res) => {
   res.json('Hello World!')
 })
 
