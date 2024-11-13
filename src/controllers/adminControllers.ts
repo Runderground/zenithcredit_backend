@@ -36,13 +36,10 @@ export const createAdmin = async (req: Request, res: Response) => {
 
     const token = jwt.sign(
       { _id: newAdmin._id },
-      process.env.JWT_KEY as string,
-      {
-        expiresIn: "1d",
-      },
+      process.env.JWT_KEY as string
     );
 
-    res.json({ token, success: "Administrador criado com sucesso!" });
+    res.json({ token, success: "Administrador criado com sucesso!", newAdmin});
   } catch (error) {
     console.error(error);
     res.status(500).json("Ocorreu algum erro não esperado. Tente mais tarde.");
@@ -74,11 +71,9 @@ export const loginAdmin = async (req: Request, res: Response) => {
       return;
     }
 
-    const token = jwt.sign({ _id: admin._id }, process.env.JWT_KEY as string, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign({ _id: admin._id }, process.env.JWT_KEY as string);
 
-    res.status(200).json({ token, success: `Bem vindo ${admin.nome}!` });
+    res.status(200).json({ token, success: `Bem vindo ${admin.nome}!`, admin });
   } catch (error) {
     console.error(error);
     res.status(500).json("Ocorreu algum erro não esperado. Tente mais tarde.");
