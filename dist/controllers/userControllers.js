@@ -84,14 +84,14 @@ const ConsultarPorQueryUnique = async (req, res) => {
     }
 };
 exports.ConsultarPorQueryUnique = ConsultarPorQueryUnique;
-const DeleteUser = (req, res) => {
+const DeleteUser = async (req, res) => {
     const { id } = req.params;
     if (!id) {
         res.status(400).json({ error: "Usuário não encontrado ou existente." });
         return;
     }
     try {
-        cadastroModel_1.default.findByIdAndDelete(id);
+        await cadastroModel_1.default.findByIdAndDelete(id);
         res.status(200).json({ success: "Usuário deletado com sucesso." });
     }
     catch (err) {
