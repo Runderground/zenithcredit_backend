@@ -14,6 +14,30 @@ interface IRegisterParams {
   cep: string,
 }
 
+export const getAllCadastros = async (req: Request,res: Response) => {
+  const page = parseInt(req.query.page as string, 10) || 1
+  const limit = parseInt(req.query.limit as string, 10) || 10
+
+  const skip = (page - 1) * limit
+      try {
+        const cadastros = await cadastroModel.find().skip(skip).limit(limit).sort({createdAt: -1})
+
+        const totalCadastros = await cadastroModel.countDocuments()
+        if(!cadastros) {
+          res.status(404).json({error: "Não há contatos ou não consegui achar"})
+          return
+        }
+        res.status(200).json({
+          cadastros,
+          totalPages: Math.ceil(totalCadastros / limit),
+          currentPage: page,
+        })
+      } catch(error) {
+        console.error(error)
+        res.status(500).json("Ocorreu algum erro com o servidor")
+      }
+}
+
 export const FazerCadastro = async (req: Request<IRegisterParams>, res: Response) => {
   const { nome, email, telefone, cpf, cep, nascimento, renda, ocupacao, motivo, garantia } = req.body
   if(!nome || !email || !telefone || !cpf || !cep || !nascimento || !renda || !ocupacao || !motivo || !garantia) {

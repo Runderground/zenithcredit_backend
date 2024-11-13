@@ -1,14 +1,10 @@
 import express from 'express'
-import { FazerCadastro, ConsultarPorQueryUnique, DeleteUser } from '../controllers/cadastroControllers'
-import cadastroModel from '../models/cadastroModel'
+import { FazerCadastro, ConsultarPorQueryUnique, DeleteUser, getAllCadastros } from '../controllers/cadastroControllers'
 
 const router = express.Router()
 
 
-router.get('/', async (req,res) => {
-  const users = await cadastroModel.find()
-  res.json(users)
-})
+router.get('/', getAllCadastros)
 
 // Rota pública
 router.post('/register', FazerCadastro)

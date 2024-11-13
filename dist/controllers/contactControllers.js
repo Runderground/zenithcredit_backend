@@ -10,7 +10,7 @@ const getAllContacts = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 10;
     const skip = (page - 1) * limit;
     try {
-        const contacts = await contactModel_1.default.find().skip(skip).limit(limit);
+        const contacts = await contactModel_1.default.find().skip(skip).limit(limit).sort({ createdAt: -1 });
         const totalContacts = await contactModel_1.default.countDocuments();
         if (!contacts) {
             res.status(404).json({ error: "Não há contatos ou não consegui achar" });

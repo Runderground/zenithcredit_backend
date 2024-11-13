@@ -3,8 +3,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteUser = exports.ConsultarPorQueryUnique = exports.FazerCadastro = void 0;
+exports.DeleteUser = exports.ConsultarPorQueryUnique = exports.FazerCadastro = exports.getAllCadastros = void 0;
 const cadastroModel_1 = __importDefault(require("../models/cadastroModel"));
+const getAllCadastros = async (req, res) => {
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const skip = (page - 1) * limit;
+    try {
+        const cadastros = await cadastroModel_1.default.find().skip(skip).limit(limit).sort({ createdAt: -1 });
+        const totalCadastros = await cadastroModel_1.default.countDocuments();
+        if (!cadastros) {
+            res.status(404).json({ error: "Não há contatos ou não consegui achar" });
+            return;
+        }
+        res.status(200).json({
+            cadastros,
+            totalPages: Math.ceil(totalCadastros / limit),
+            currentPage: page,
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json("Ocorreu algum erro com o servidor");
+    }
+};
+exports.getAllCadastros = getAllCadastros;
 const FazerCadastro = async (req, res) => {
     const { nome, email, telefone, cpf, cep, nascimento, renda, ocupacao, motivo, garantia } = req.body;
     if (!nome || !email || !telefone || !cpf || !cep || !nascimento || !renda || !ocupacao || !motivo || !garantia) {

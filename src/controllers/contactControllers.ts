@@ -8,7 +8,7 @@ export const getAllContacts = async (req: Request,res: Response) => {
 
   const skip = (page - 1) * limit
       try {
-        const contacts = await contactModel.find().skip(skip).limit(limit)
+        const contacts = await contactModel.find().skip(skip).limit(limit).sort({createdAt: -1})
 
         const totalContacts = await contactModel.countDocuments()
         if(!contacts) {
