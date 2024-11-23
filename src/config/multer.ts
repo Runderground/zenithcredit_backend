@@ -1,43 +1,42 @@
 import multer, { Multer } from 'multer'
-import path from "path"
-import { Request } from 'express'
+import { S3Client } from '@aws-sdk/client-s3'
 import multerS3 from 'multer-s3'
-import AWS from 'aws-sdk'
 import dotenv from 'dotenv'
-const allowedTypes = ["images/jpeg", "images/png", "images/jpg", "application/pdf"]
 
 dotenv.config()
 
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION
-})
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, '../../uploads')
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, `${uniqueSuffix}-${file.originalname}`)
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
   }
 })
-
-const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-  if(allowedTypes.includes(file.mimetype)) {
-    cb(null, true)
-  } else {
-    cb(new Error("Tipo de arquivo não suportado"))
-  }
-}
 
 const upload: Multer = multer({
-  storage,
+  storage: multerS3({
+    s3,
+    bucket: process.env.AWS_BUCKET_NAME || "",
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname })
+    },
+    key: (req, file, cb) => {
+      const fileName = `${Date.now()}-${file.originalname}`
+      cb(null, fileName)
+    },
+    contentType: multerS3.AUTO_CONTENT_TYPE
+  }),
   limits: {
     fileSize: 1024 * 1024 * 5
   },
-  fileFilter,
+  fileFilter: (req,file,cb) => {
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/jpg", "application/pdf"]
+    if(allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true)
+    } else {
+      cb(new Error("Apenas arquivos PDF e imagens são permitidos"))
+    }
+  }
 })
 
 export default upload
