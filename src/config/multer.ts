@@ -1,5 +1,5 @@
 import multer, { Multer } from 'multer'
-import { S3Client } from '@aws-sdk/client-s3'
+import { S3Client, DeleteObjectCommand} from '@aws-sdk/client-s3'
 import multerS3 from 'multer-s3'
 import dotenv from 'dotenv'
 
@@ -12,6 +12,23 @@ const s3 = new S3Client({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
   }
 })
+
+export const deleteImageFromS3 = async(imageKey: string) => {
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: imageKey
+  }
+
+  try {
+    const command = new DeleteObjectCommand(params)
+    const result = await s3.send(command)
+    console.log('Imagem deletada com sucesso', result)
+    return result
+  } catch (error) {
+    console.error('Erro ao deletar a imagem:', error)
+    throw error
+  }
+}
 
 const upload: Multer = multer({
   storage: multerS3({

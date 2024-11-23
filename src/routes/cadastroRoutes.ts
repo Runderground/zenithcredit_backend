@@ -25,8 +25,6 @@ router.post('/register', upload.fields([
 
   const dados = JSON.parse(values)
 
-  console.log("VALOR NOME:" + dados.nome)
-
   if(!req.files) {
     res.status(400).json({error: 'Não foi possível fazer o cadastro. Verifique se o arquivo foi enviado corretamente.'})
     return
@@ -62,9 +60,24 @@ router.post('/register', upload.fields([
       motivo: dados.motivo,
       documentos: [
         {
-          identidade: identidade[0].location,
-          comprovante_renda: renda[0].location,
-          residencia: residencia[0].location
+          identidade: [
+            {
+              url: identidade[0].location,
+              key: identidade[0].key
+            }
+          ],
+      residencia: [
+        {
+          url: residencia[0].location,
+          key: residencia[0].key
+        }
+      ],
+          comprovante_renda: [
+            {
+              url: renda[0].location,
+              key: renda[0].key
+            }
+          ]
         }
       ]
     })

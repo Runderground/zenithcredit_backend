@@ -1,5 +1,16 @@
 import {Request, Response} from 'express'
 import cadastroModel from '../models/cadastroModel'
+import { deleteImageFromS3 } from '../config/multer'
+
+interface Documento {
+  identidade: {url: string, key: string},
+  comprovante_renda: {url: string, key: string},
+  residencia: {url: string, key: string},
+}
+
+interface Usuario {
+  documentos: Documento[],
+}
 
 interface IRegisterParams {
   nome: string,
@@ -129,11 +140,26 @@ export const ConsultarPorQueryUnique = async (req: Request, res: Response) => {
 export const DeleteUser = async (req: Request, res: Response) => {
   const { id } = req.params
   if(!id) {
-    res.status(400).json({error: "Usuário não encontrado ou existente."})
+    res.status(404).json({error: "Usuário não encontrado ou existente."})
+    return
+  }
+  const user = await cadastroModel.findById(id)
+  if(!user) {
+    res.status(404).json({error: "Usuário não encontrado ou existente."})
     return
   }
   try {
+    const deletarIdentidade = await deleteImageFromS3(user?.documentos[0].identidade[0].key)
+    console.log(deletarIdentidade)
+    
+    const deletarRenda = await deleteImageFromS3(user?.documentos[0].comprovante_renda[0].key)
+    console.log(deletarRenda)
+    
+    const deletarResidencia = await deleteImageFromS3(user?.documentos[0].residencia[0].key)
+    console.log(deletarResidencia)
+    
     await cadastroModel.findByIdAndDelete(id)
+    
     res.status(200).json({success: "Usuário deletado com sucesso."})
   } catch (err) {
     res.status(500).json("Ocorreu algum erro com o servidor")

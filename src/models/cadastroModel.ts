@@ -29,9 +29,24 @@ const CadastroSchema = new mongoose.Schema<ICadastro>({
   garantia: { type: String, required: true },
   documentos: [
     {
-      residencia: { type: String, required: true },
-      identidade: { type: String, required: true },
-      comprovante_renda: { type: String, required: true },
+      residencia: [
+        {
+          url: {type: String, required: true},
+          key: {type: String, required: true}
+        }
+      ],
+      identidade: [
+        {
+          url: {type: String, required: true},
+          key: {type: String, required: true}
+        }
+      ],
+      comprovante_renda: [
+        {
+          url: {type: String, required: true},
+          key: {type: String, required: true}
+        }
+      ],
     }
   ],
   createdAt: {type: Date, default: Date.now }

@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CountUsers = exports.DeleteUser = exports.ConsultarPorQueryUnique = exports.FazerCadastro = exports.getAllCadastros = void 0;
 const cadastroModel_1 = __importDefault(require("../models/cadastroModel"));
+const multer_1 = require("../config/multer");
 const getAllCadastros = async (req, res) => {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -115,10 +116,21 @@ exports.ConsultarPorQueryUnique = ConsultarPorQueryUnique;
 const DeleteUser = async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        res.status(400).json({ error: "Usuário não encontrado ou existente." });
+        res.status(404).json({ error: "Usuário não encontrado ou existente." });
+        return;
+    }
+    const user = await cadastroModel_1.default.findById(id);
+    if (!user) {
+        res.status(404).json({ error: "Usuário não encontrado ou existente." });
         return;
     }
     try {
+        const deletarIdentidade = await (0, multer_1.deleteImageFromS3)(user?.documentos[0].identidade[0].key);
+        console.log(deletarIdentidade);
+        const deletarRenda = await (0, multer_1.deleteImageFromS3)(user?.documentos[0].comprovante_renda[0].key);
+        console.log(deletarRenda);
+        const deletarResidencia = await (0, multer_1.deleteImageFromS3)(user?.documentos[0].residencia[0].key);
+        console.log(deletarResidencia);
         await cadastroModel_1.default.findByIdAndDelete(id);
         res.status(200).json({ success: "Usuário deletado com sucesso." });
     }
