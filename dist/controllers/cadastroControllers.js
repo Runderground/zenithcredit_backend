@@ -29,41 +29,46 @@ const getAllCadastros = async (req, res) => {
 };
 exports.getAllCadastros = getAllCadastros;
 const FazerCadastro = async (req, res) => {
-    const { nome, email, telefone, cpf, cep, nascimento, renda, ocupacao, motivo, garantia } = req.body;
-    if (!nome || !email || !telefone || !cpf || !cep || !nascimento || !renda || !ocupacao || !motivo || !garantia) {
+    const { values } = req.body;
+    if (!values) {
         res.status(400).json({ error: 'Está faltando alguns dos campos. Verifique e tente novamente.' });
         return;
     }
-    const invalid_email = await cadastroModel_1.default.findOne({ email: email });
+    if (!req.file) {
+        res.status(400).json({ error: 'Não foi possível fazer o cadastro. Verifique se o arquivo foi enviado corretamente.' });
+        return;
+    }
+    const invalid_email = await cadastroModel_1.default.findOne({ email: values.email });
     if (invalid_email) {
         res.status(400).json({ error: 'Este email já está registrado, tente outro.' });
         return;
     }
-    const invalid_cpf = await cadastroModel_1.default.findOne({ cpf: cpf });
+    const invalid_cpf = await cadastroModel_1.default.findOne({ cpf: values.cpf });
     if (invalid_cpf) {
         res.status(400).json({ error: 'Este CPF já está registrado, tente outro.' });
         return;
     }
-    const invalid_telefone = await cadastroModel_1.default.findOne({ telefone: telefone });
+    const invalid_telefone = await cadastroModel_1.default.findOne({ telefone: values.telefone });
     if (invalid_telefone) {
         res.status(400).json({ error: 'Este telefone já está registrado, tente outro.' });
         return;
     }
     try {
         const cadastro = new cadastroModel_1.default({
-            nome: nome,
-            email: email,
-            telefone: telefone,
-            cpf: cpf,
-            cep: cep,
-            nascimento: nascimento,
-            renda: renda,
-            ocupacao: ocupacao,
-            garantia: garantia,
-            motivo: motivo
+            nome: values.nome,
+            email: values.email,
+            telefone: values.telefone,
+            cpf: values.cpf,
+            cep: values.cep,
+            nascimento: values.nascimento,
+            renda: values.renda,
+            ocupacao: values.ocupacao,
+            garantia: values.garantia,
+            motivo: values.motivo,
+            documentos: []
         });
         await cadastro.save();
-        res.status(201).json({ success: "Seu cadastro foi feito com sucesso." });
+        res.status(201).json({ success: "Seus documentos foram enviados com sucesso, nossos consultores entrarão em conta o mais breve possível." });
     }
     catch (err) {
         res.status(500).json("Ocorreu algum erro com o servidor");

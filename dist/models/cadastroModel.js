@@ -15,6 +15,13 @@ const CadastroSchema = new mongoose_1.default.Schema({
     ocupacao: { type: String, required: true },
     motivo: { type: String, required: true },
     garantia: { type: String, required: true },
+    documentos: [
+        {
+            residencia: { type: String, required: true },
+            identidade: { type: String, required: true },
+            comprovante_renda: { type: String, required: true },
+        }
+    ],
     createdAt: { type: Date, default: Date.now }
 });
 const cadastroModel = mongoose_1.default.model('Cadastro', CadastroSchema);

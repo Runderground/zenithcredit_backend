@@ -10,6 +10,10 @@ interface ICadastro {
   ocupacao: string;
   motivo: string;
   garantia: string;
+  documentos: string[]
+  residencia: string;
+  comprovante_renda: string;
+  identidade: string;
   createdAt: Date;
 }
 const CadastroSchema = new mongoose.Schema<ICadastro>({
@@ -23,6 +27,13 @@ const CadastroSchema = new mongoose.Schema<ICadastro>({
   ocupacao: { type: String, required: true },
   motivo: { type: String, required: true },
   garantia: { type: String, required: true },
+  documentos: [
+    {
+      residencia: { type: String, required: true },
+      identidade: { type: String, required: true },
+      comprovante_renda: { type: String, required: true },
+    }
+  ],
   createdAt: {type: Date, default: Date.now }
 });
 const cadastroModel = mongoose.model<ICadastro>('Cadastro', CadastroSchema);
