@@ -211,6 +211,9 @@ export const updateCadastro = async (req: Request, res: Response) => {
   const user = cadastroModel.findOne({_id: id})
   const { value } = req.body
 
+  console.log(value)
+  console.log(type)
+
   if(!id) {
     res.status(400).json({error: "ID não fornecido"})
   }
@@ -232,7 +235,8 @@ export const updateCadastro = async (req: Request, res: Response) => {
 
   if(type === "nome") {
     await user.updateOne({nome: value})
-    res.send(200).json({success: "Nome atualizado com sucesso"})
+    res.status(200).json({success: "Nome atualizado com sucesso"})
+    return
   }
 }
 

@@ -174,6 +174,8 @@ const updateCadastro = async (req, res) => {
     const { type } = req.query;
     const user = cadastroModel_1.default.findOne({ _id: id });
     const { value } = req.body;
+    console.log(value);
+    console.log(type);
     if (!id) {
         res.status(400).json({ error: "ID não fornecido" });
     }
@@ -191,7 +193,8 @@ const updateCadastro = async (req, res) => {
     }
     if (type === "nome") {
         await user.updateOne({ nome: value });
-        res.send(200).json({ success: "Nome atualizado com sucesso" });
+        res.status(200).json({ success: "Nome atualizado com sucesso" });
+        return;
     }
 };
 exports.updateCadastro = updateCadastro;
