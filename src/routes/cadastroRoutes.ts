@@ -1,5 +1,5 @@
 import express, { Express } from 'express'
-import { ConsultarPorQueryUnique, DeleteUser, getAllCadastros, CountUsers } from '../controllers/cadastroControllers'
+import { ConsultarPorQueryUnique, DeleteUser, getAllCadastros, CountUsers, updateCadastro } from '../controllers/cadastroControllers'
 import { authenticateJWT } from '../middleware/Auth'
 import upload from '../config/multer'
 import cadastroModel from '../models/cadastroModel'
@@ -95,5 +95,6 @@ router.get('/find_user_unique', authenticateJWT, ConsultarPorQueryUnique)
 router.delete('/delete/:id', authenticateJWT, DeleteUser)
 router.get('/', authenticateJWT, getAllCadastros)
 router.get("/totalusers", authenticateJWT, CountUsers)
+router.put("/update/:id", authenticateJWT, updateCadastro)
 
 export default router

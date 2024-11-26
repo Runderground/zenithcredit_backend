@@ -89,4 +89,5 @@ router.get('/find_user_unique', Auth_1.authenticateJWT, cadastroControllers_1.Co
 router.delete('/delete/:id', Auth_1.authenticateJWT, cadastroControllers_1.DeleteUser);
 router.get('/', Auth_1.authenticateJWT, cadastroControllers_1.getAllCadastros);
 router.get("/totalusers", Auth_1.authenticateJWT, cadastroControllers_1.CountUsers);
+router.put("/update/:id", Auth_1.authenticateJWT, cadastroControllers_1.updateCadastro);
 exports.default = router;

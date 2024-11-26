@@ -20,24 +20,24 @@ const CadastroSchema = new mongoose_1.default.Schema({
             residencia: [
                 {
                     url: { type: String, required: true },
-                    key: { type: String, required: true }
-                }
+                    key: { type: String, required: true },
+                },
             ],
             identidade: [
                 {
                     url: { type: String, required: true },
-                    key: { type: String, required: true }
-                }
+                    key: { type: String, required: true },
+                },
             ],
             comprovante_renda: [
                 {
                     url: { type: String, required: true },
-                    key: { type: String, required: true }
-                }
+                    key: { type: String, required: true },
+                },
             ],
-        }
+        },
     ],
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
 });
-const cadastroModel = mongoose_1.default.model('Cadastro', CadastroSchema);
+const cadastroModel = mongoose_1.default.model("Cadastro", CadastroSchema);
 exports.default = cadastroModel;
