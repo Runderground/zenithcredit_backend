@@ -196,6 +196,66 @@ const updateCadastro = async (req, res) => {
         res.status(200).json({ success: "Nome atualizado com sucesso" });
         return;
     }
+    else if (type === "email") {
+        const invalid_email = await cadastroModel_1.default.findOne({ email: value });
+        if (invalid_email) {
+            res.status(400).json({ error: "Já existe um cadastro com este email, tente utilizar outro." });
+            return;
+        }
+        await user.updateOne({ email: value });
+        res.status(200).json({ success: "Email atualizado com sucesso" });
+        return;
+    }
+    else if (type === "telefone") {
+        const invalid_telefone = await cadastroModel_1.default.findOne({ telefone: value });
+        if (invalid_telefone) {
+            res.status(400).json({ error: "Já existe um cadastro com este telefone, tente utilizar outro." });
+            return;
+        }
+        await user.updateOne({ telefone: value });
+        res.status(200).json({ success: "Telefone atualizado com sucesso" });
+        return;
+    }
+    else if (type === "cpf") {
+        const invalid_cpf = await cadastroModel_1.default.findOne({ cpf: value });
+        if (invalid_cpf) {
+            res.status(400).json({ error: "Já existe um cadastro com este CPF, tente utilizar outro." });
+            return;
+        }
+        await user.updateOne({ cpf: value });
+        res.status(200).json({ success: "CPF atualizado com sucesso" });
+        return;
+    }
+    else if (type === "nascimento") {
+        await user.updateOne({ nascimento: value });
+        res.status(200).json({ success: "Nascimento atualizado com sucesso" });
+        return;
+    }
+    else if (type === "cep") {
+        await user.updateOne({ cep: value });
+        res.status(200).json({ success: "Cep atualizado com sucesso" });
+        return;
+    }
+    else if (type === "renda") {
+        await user.updateOne({ renda: value });
+        res.status(200).json({ success: "Renda atualizado com sucesso" });
+        return;
+    }
+    else if (type === "ocupacao") {
+        await user.updateOne({ ocupacao: value });
+        res.status(200).json({ success: "Ocupação atualizado com sucesso" });
+        return;
+    }
+    else if (type === "motivo") {
+        await user.updateOne({ motivo: value });
+        res.status(200).json({ success: "Motivo atualizado com sucesso" });
+        return;
+    }
+    else if (type === "garantia") {
+        await user.updateOne({ garantia: value });
+        res.status(200).json({ success: "Nome atualizado com sucesso" });
+        return;
+    }
 };
 exports.updateCadastro = updateCadastro;
 // 6744e1c7d2a298165cc16cd7
